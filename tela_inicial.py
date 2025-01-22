@@ -55,8 +55,12 @@ class Game:
         )
         btn.place(x=300, y=y_position, width=200, height=50)
 
+
+
+
     def start_game(self):
         self.clear_root()
+
 
         # Criar a caixa de texto
         self.text_box = tk.Text(
@@ -68,12 +72,13 @@ class Game:
         )
         self.text_box.pack(fill="both", expand=True)  # Expandir para ocupar toda a janela
 
-        Logica(self)
-
         # Barra de rolagem
         scrollbar = tk.Scrollbar(self.root, command=self.text_box.yview)
         scrollbar.pack(side="right", fill="y")
         self.text_box.config(yscrollcommand=scrollbar.set)
+
+        Logica(self)
+
 
     def settings(self):
         messagebox.showinfo("Configurações", "Abrindo configurações!")
