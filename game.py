@@ -18,13 +18,42 @@ class Logica:
         self.instancia.text_box.insert("1.0", sample_text)
         self.instancia.text_box.insert("end", "\n")
         # Iniciar a barra de carregamento
-        self.instancia.text_box.insert("end","                                                           Carregando Textos")
+        self.instancia.text_box.insert("end", f"{' ' * 61}Carregando Textos")
         self.instancia.text_box.insert("end", "\n")
         self.progresso_atual = 0 
         self.iniciar_barra()
+
+        if self.progresso_atual == 71:
+            self.selecionar_op()
+
+
     
     def iniciar_barra(self): 
         if self.progresso_atual < 72:
             self.instancia.text_box.insert("end","=")
             self.progresso_atual += 1
             self.instancia.root.after(100, self.iniciar_barra)
+        
+    def selecionar_op(self):
+        op_text_dificuldade="""
+            Selecione uma opção:
+            Dificuldade:
+            1 - Fácil
+            2 - Médio
+            3 - Difícil
+            4 = Avançado
+        """
+        op_text_texto="""
+            Escolha um texto:
+            a - aaaa
+            b - bbbb
+            c - cccc
+            d - dddd
+        """
+        self.instancia.text_box.insert("end", "\n")
+        self.instancia.text_box.insert("end", op_text_dificuldade)
+        self.instancia.text_box.insert("end", "\n")
+
+        self.instancia.text_box.insert("end", "\n")
+        self.instancia.text_box.insert("end", op_text_texto)
+        self.instancia.text_box.insert("end", "\n")
