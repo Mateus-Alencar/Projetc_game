@@ -27,7 +27,7 @@ class Logica:
         if self.progresso_atual < self.progresso_total:
             self.instancia.text_box.insert("end", "=")
             self.progresso_atual += 1
-            self.instancia.root.after(100, self.iniciar_barra)
+            self.instancia.root.after(10, self.iniciar_barra)
         else:
             self.selecionar_op()
 
@@ -40,6 +40,7 @@ class Logica:
         3 - Difícil
         4 - Avançado
         """
+        
         op_text_texto = """
         Escolha um texto:
         a - Texto A
@@ -48,3 +49,17 @@ class Logica:
         d - Texto D
         """
         self.instancia.text_box.insert("end", "\n" + op_text_dificuldade + "\n" + op_text_texto)
+        self.instancia.text_box.insert("end", "\n Digite sua escolha: ")
+        self.instancia.text_box.bind("<Return>", self.pegar_entrada)
+
+    def pegar_entrada(self, event):
+        conteudo = self.instancia.text_box.get("1.0", "end").strip()
+        ultima_linha = conteudo.split("\n")[-1].strip()
+
+        opcoes_validas = {"1", "2", "3", "4", "a", "b", "c", "d"}
+        if ultima_linha in opcoes_validas:
+            self.instancia.text_box.insert("end", f"\nVocê escolheu: {ultima_linha}\n")
+        else:
+            self.instancia.text_box.insert("end", "\nOpção inválida! Tente novamente.\n")
+
+        return "break"  # Evita que o <Enter> pule uma linha extra
