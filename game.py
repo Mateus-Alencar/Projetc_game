@@ -31,6 +31,7 @@ class Logica:
         else:
             self.selecionar_op()
 
+
     def selecionar_op(self):
         op_text_dificuldade = """
         Selecione uma opção:
@@ -40,7 +41,11 @@ class Logica:
         3 - Difícil
         4 - Avançado
         """
-        
+        self.instancia.text_box.insert("end", "\n" + op_text_dificuldade)
+        self.instancia.text_box.insert("end", "\nDigite sua escolha: ")
+        self.etapa = "dificuldade"
+
+    def selecionar_tx(self):
         op_text_texto = """
         Escolha um texto:
         a - Texto A
@@ -48,18 +53,27 @@ class Logica:
         c - Texto C
         d - Texto D
         """
-        self.instancia.text_box.insert("end", "\n" + op_text_dificuldade + "\n" + op_text_texto)
-        self.instancia.text_box.insert("end", "\n Digite sua escolha: ")
-        self.instancia.text_box.bind("<Return>", self.pegar_entrada)
+        self.instancia.text_box.insert("end", "\n" + op_text_texto)
+        self.instancia.text_box.insert("end", "\nDigite sua escolha: ")
+        self.etapa = "texto"
 
     def pegar_entrada(self, event):
         conteudo = self.instancia.text_box.get("1.0", "end").strip()
         ultima_linha = conteudo.split("\n")[-1].strip()
 
-        opcoes_validas = {"1", "2", "3", "4", "a", "b", "c", "d"}
-        if ultima_linha in opcoes_validas:
-            self.instancia.text_box.insert("end", f"\nVocê escolheu: {ultima_linha}\n")
-        else:
-            self.instancia.text_box.insert("end", "\nOpção inválida! Tente novamente.\n")
+        if self.etapa == "dificuldade":
+            if ultima_linha in {"1", "2", "3", "4"}:
+                self.instancia.text_box.insert("end", f"\nVocê escolheu a dificuldade: {ultima_linha}\n")
+                self.selecionar_tx()  # Agora, pede a escolha do texto
+            else:
+                self.instancia.text_box.insert("end", "\nOpção inválida! Tente novamente.\n")
+
+        elif self.etapa == "texto":
+            if ultima_linha in {"a", "b", "c", "d"}:
+                self.instancia.text_box.insert("end", f"\nVocê escolheu o texto: {ultima_linha}\n")
+                self.instancia.text_box.insert("end", "\nProcesso concluído!\n")
+                self.instancia.text_box.unbind("<Return>")  # Desativa a entrada após a escolha
+            else:
+                self.instancia.text_box.insert("end", "\nOpção inválida! Tente novamente.\n")
 
         return "break"  # Evita que o <Enter> pule uma linha extra
