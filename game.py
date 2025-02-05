@@ -44,6 +44,7 @@ class Logica:
         self.instancia.text_box.insert("end", "\n" + op_text_dificuldade)
         self.instancia.text_box.insert("end", "\nDigite sua escolha: ")
         self.etapa = "dificuldade"
+        self.instancia.text_box.bind("<Return>", self.pegar_entrada)
 
     def selecionar_tx(self):
         op_text_texto = """
@@ -56,6 +57,7 @@ class Logica:
         self.instancia.text_box.insert("end", "\n" + op_text_texto)
         self.instancia.text_box.insert("end", "\nDigite sua escolha: ")
         self.etapa = "texto"
+        self.instancia.text_box.bind("<Return>", self.pegar_entrada)
 
     def pegar_entrada(self, event):
         conteudo = self.instancia.text_box.get("1.0", "end").strip()
@@ -64,7 +66,7 @@ class Logica:
         if self.etapa == "dificuldade":
             if ultima_linha in {"1", "2", "3", "4"}:
                 self.instancia.text_box.insert("end", f"\nVocê escolheu a dificuldade: {ultima_linha}\n")
-                self.selecionar_tx()  # Agora, pede a escolha do texto
+                self.selecionar_tx() 
             else:
                 self.instancia.text_box.insert("end", "\nOpção inválida! Tente novamente.\n")
 
@@ -72,8 +74,8 @@ class Logica:
             if ultima_linha in {"a", "b", "c", "d"}:
                 self.instancia.text_box.insert("end", f"\nVocê escolheu o texto: {ultima_linha}\n")
                 self.instancia.text_box.insert("end", "\nProcesso concluído!\n")
-                self.instancia.text_box.unbind("<Return>")  # Desativa a entrada após a escolha
+                self.instancia.text_box.unbind("<Return>") 
             else:
                 self.instancia.text_box.insert("end", "\nOpção inválida! Tente novamente.\n")
 
-        return "break"  # Evita que o <Enter> pule uma linha extra
+        return "break" 

@@ -14,19 +14,19 @@ textos = [
     {
         "caracter": 82,
         "palavras": 13,
-        "dificuldade": 3,  # Difícil
+        "dificuldade": 2,  # Difícil
         "texto": "Em uma noite escura e silenciosa, o vento uivava entre as árvores do bosque."
     },
     {
         "caracter": 123,
         "palavras": 21,
-        "dificuldade": 4,  # Avançado
+        "dificuldade": 3,  # Médio
         "texto": "O explorador, com uma bússola e um mapa desgastado, desbravava caminhos desconhecidos através de montanhas altas e traiçoeiras."
     },
     {
         "caracter": 187,
         "palavras": 32,
-        "dificuldade": 5,  # Expert
+        "dificuldade": 4,  # Avançado
         "texto": "A ciência avançou a passos largos, trazendo inovações tecnológicas capazes de transformar a sociedade, mas também gerando desafios éticos e ambientais que precisam ser resolvidos com sabedoria."
     }
 ]
