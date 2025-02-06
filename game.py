@@ -79,3 +79,4 @@ class Logica:
                 self.instancia.text_box.insert("end", "\nOpção inválida! Tente novamente.\n")
 
         return "break" 
+
