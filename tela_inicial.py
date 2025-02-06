@@ -12,7 +12,7 @@ class Game:
         self.root.resizable(False, False)
 
         # Simulação de gradiente de fundo
-        self.canvas = tk.Canvas(self.root, width=800, height=500)
+        self.canvas = tk.Canvas(self.root, width=820, height=500)
         self.canvas.pack(fill="both", expand=True)
         self.create_gradient_background()
 
@@ -62,17 +62,22 @@ class Game:
         self.clear_root()
 
 
-        # Criar a caixa de texto
+        # Criar a caixa de texto com estilo aprimorado
         self.text_box = tk.Text(
-            self.root,
-            font=("Arial", 14),
-            wrap="word",  # Quebra de linha por palavra
-            bg="#000",  # Cor de fundo
-            fg="#FFF"  # Cor do texto
-        )
-        self.text_box.pack(fill="both", expand=True)  # Expandir para ocupar toda a janela
+        self.root,
+        font=("Arial", 14),      # Fonte maior para melhor leitura
+        wrap="word",             # Quebra de linha por palavra
+        bg="#000",               # Fundo preto (estilo terminal)
+        fg="#FFF",               # Texto branco
+        insertbackground="#FFF", # Cursor branco
+        padx=10,                 # Espaçamento interno (esquerda/direita)
+        pady=10,                 # Espaçamento interno (topo/baixo)
+        spacing1=5,              # Espaçamento antes de cada linha
+        spacing3=5               # Espaçamento após cada linha
+            )
+        self.text_box.pack(fill="both", expand=True, padx=10, pady=10)  # Margens externas para um layout mais limpo
 
-        # Barra de rolagem
+        # Criar e configurar a barra de rolagem
         scrollbar = tk.Scrollbar(self.root, command=self.text_box.yview)
         scrollbar.pack(side="right", fill="y")
         self.text_box.config(yscrollcommand=scrollbar.set)

@@ -1,3 +1,4 @@
+from SelecionarTextos import *
 class Logica:
     def __init__(self, instancia):
         self.instancia = instancia
@@ -7,8 +8,10 @@ class Logica:
         
         # Configurar progresso
         self.progresso_atual = 0
-        self.progresso_total = 70  
+        self.progresso_total = 68 
         self.iniciar_barra()
+
+        
 
     def inserir_texto_inicial(self):
         texto_inicial = """
@@ -42,41 +45,64 @@ class Logica:
         4 - Avançado
         """
         self.instancia.text_box.insert("end", "\n" + op_text_dificuldade)
-        self.instancia.text_box.insert("end", "\nDigite sua escolha: ")
+        self.instancia.text_box.insert("end", "\nDigite sua escolha: "+ "\n")
         self.etapa = "dificuldade"
+        self.instancia.text_box.mark_set("insert", "end")  # Move o cursor para o final
+        self.instancia.text_box.see("end")
         self.instancia.text_box.bind("<Return>", self.pegar_entrada)
+        
+        
+        
 
     def selecionar_tx(self):
-        op_text_texto = """
+        textos = SelecionarTextos()
+        textos_filtrados = textos.selecionarDificuldade(int(self.ultima_linha))
+ 
+        # Criar as opções numeradas dinamicamente
+        opcoes = "\n".join(
+            [f"""   {chr(97 + i)} - {texto}""" for i, texto in enumerate(textos_filtrados)]
+        )
+
+        #opcoes = ""
+        #for i, texto in enumerate(textos_filtrados):
+        #    letra = chr(97 + i)  # 97 é o código ASCII de 'a'
+        #    opcoes += f"{letra} - {texto}\n"
+
+        # Construir a string final
+        op_text_texto = f"""
         Escolha um texto:
-        a - Texto A
-        b - Texto B
-        c - Texto C
-        d - Texto D
+        {opcoes.strip()} 
+        Digite sua escolha:
         """
-        self.instancia.text_box.insert("end", "\n" + op_text_texto)
-        self.instancia.text_box.insert("end", "\nDigite sua escolha: ")
+
+        self.instancia.text_box.insert("end", "\n" + op_text_texto.strip())
+        self.instancia.text_box.insert("end", "\nDigite sua escolha: " + "\n")
         self.etapa = "texto"
+        self.instancia.text_box.mark_set("insert", "end")  # Move o cursor para o final
+        self.instancia.text_box.see("end")
         self.instancia.text_box.bind("<Return>", self.pegar_entrada)
+
 
     def pegar_entrada(self, event):
         conteudo = self.instancia.text_box.get("1.0", "end").strip()
-        ultima_linha = conteudo.split("\n")[-1].strip()
+        self.ultima_linha = conteudo.split("\n")[-1].strip()
 
         if self.etapa == "dificuldade":
-            if ultima_linha in {"1", "2", "3", "4"}:
-                self.instancia.text_box.insert("end", f"\nVocê escolheu a dificuldade: {ultima_linha}\n")
+            if self.ultima_linha in {"1", "2", "3", "4"}:
+                self.instancia.text_box.insert("end", f"\nVocê escolheu a dificuldade: {self.ultima_linha}\n")
                 self.selecionar_tx() 
             else:
                 self.instancia.text_box.insert("end", "\nOpção inválida! Tente novamente.\n")
 
         elif self.etapa == "texto":
-            if ultima_linha in {"a", "b", "c", "d"}:
-                self.instancia.text_box.insert("end", f"\nVocê escolheu o texto: {ultima_linha}\n")
+            if self.ultima_linha in {"a", "b", "c", "d"}:
+                self.instancia.text_box.insert("end", f"\nVocê escolheu o texto: {self.ultima_linha}\n")
                 self.instancia.text_box.insert("end", "\nProcesso concluído!\n")
                 self.instancia.text_box.unbind("<Return>") 
             else:
                 self.instancia.text_box.insert("end", "\nOpção inválida! Tente novamente.\n")
 
-        return "break" 
+        self.instancia.text_box.see("end")
+        self.instancia.text_box.bind("<Return>", self.pegar_entrada)
 
+        return "break" 
