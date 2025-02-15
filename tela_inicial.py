@@ -19,7 +19,7 @@ class Game:
         # Título
         self.title = tk.Label(
             self.root,
-            text="Meu Jogo Fantástico",
+            text="MonkeyType",
             font=("Arial", 36, "bold"),
             fg="white",
             bg="#34495e"
@@ -65,17 +65,17 @@ class Game:
         # Criar a caixa de texto com estilo aprimorado
         self.text_box = tk.Text(
         self.root,
-        font=("Arial", 14),      # Fonte maior para melhor leitura
+        font=("Arial", 14),     
         wrap="word",             # Quebra de linha por palavra
         bg="#000",               # Fundo preto (estilo terminal)
         fg="#FFF",               # Texto branco
         insertbackground="#FFF", # Cursor branco
         padx=10,                 # Espaçamento interno (esquerda/direita)
         pady=10,                 # Espaçamento interno (topo/baixo)
-        spacing1=5,              # Espaçamento antes de cada linha
-        spacing3=5               # Espaçamento após cada linha
+        spacing1=5,              
+        spacing3=5               
             )
-        self.text_box.pack(fill="both", expand=True, padx=10, pady=10)  # Margens externas para um layout mais limpo
+        self.text_box.pack(fill="both", expand=True, padx=10, pady=10)  
 
         # Criar e configurar a barra de rolagem
         scrollbar = tk.Scrollbar(self.root, command=self.text_box.yview)

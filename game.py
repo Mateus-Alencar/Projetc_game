@@ -1,4 +1,7 @@
 from SelecionarTextos import *
+import time
+import tkinter as tk
+
 class Logica:
     def __init__(self, instancia):
         self.instancia = instancia
@@ -97,7 +100,8 @@ class Logica:
         elif self.etapa == "texto":
             if self.ultima_linha in {"a", "b", "c", "d"}:
                 self.instancia.text_box.insert("end", f"\nVocê escolheu o texto: {self.ultima_linha}\n")
-                self.instancia.text_box.insert("end", "\nProcesso concluído!\n")
+                #self.instancia.text_box.insert("end", "\nProcesso concluído!\n")
+                Play(self.instancia, self.ultima_linha)
                 self.instancia.text_box.unbind("<Return>") 
             else:
                 self.instancia.text_box.insert("end", "\nOpção inválida! Tente novamente.\n")
@@ -106,3 +110,49 @@ class Logica:
         self.instancia.text_box.bind("<Return>", self.pegar_entrada)
 
         return "break" 
+
+class Play:
+    def __init__(self, instancia, texto):
+        self.instancia = instancia
+        self.texto = texto.strip()
+        self.start_time = None
+        self.acertos = 0
+        self.erros = 0
+
+        # Configuração da interface
+        self.instancia.text_box.delete("1.0", tk.END)
+        self.instancia.text_box.insert("1.0", self.texto)
+        self.instancia.text_box.config(state=tk.DISABLED)  # Impede edição do texto original
+
+        # Entrada do usuário
+        self.input_box = tk.Text(self.instancia.root, height=5, wrap=tk.WORD)
+        self.input_box.pack()
+        self.input_box.bind("<KeyRelease>", self.verificar_texto)
+        self.input_box.focus()
+    
+    def verificar_texto(self, event):
+        if self.start_time is None:
+            self.start_time = time.time()
+
+        digitado = self.input_box.get("1.0", tk.END).strip()
+        correto = self.texto[:len(digitado)]
+
+        if digitado == correto:
+            self.acertos = len(digitado)
+        else:
+            self.erros += 1
+
+        if digitado == self.texto:
+            self.finalizar()
+    
+    def finalizar(self):
+        tempo_total = time.time() - self.start_time
+        palavras = len(self.texto.split())
+        wpm = (palavras / tempo_total) * 60
+
+        self.instancia.text_box.config(state=tk.NORMAL)
+        self.instancia.text_box.insert("end", f"\n\nFim! Você digitou {self.acertos} caracteres corretamente com {self.erros} erros.")
+        self.instancia.text_box.insert("end", f"\nSua velocidade: {wpm:.2f} palavras por minuto.")
+        self.instancia.text_box.config(state=tk.DISABLED)
+
+        self.input_box.config(state=tk.DISABLED)
